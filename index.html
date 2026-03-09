@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GCET Campus Lost &amp; Found — Geethanjali College</title>
+  <meta name="description" content="Report and find lost items across Geethanjali College of Engineering and Technology campus. A modern lost and found system for GCET students.">
+  <link rel="stylesheet" href="index.css">
+  <link rel="icon" href="gcet-logo.png" type="image/png">
+</head>
+<body>
+
+<!-- ==================== LOGIN OVERLAY ==================== -->
+<div id="login-overlay">
+  <div class="login-bg-shapes">
+    <div class="shape"></div>
+    <div class="shape"></div>
+    <div class="shape"></div>
+  </div>
+  <div class="login-card">
+    <div class="login-logo">
+      <img src="gcet-logo.png" alt="GCET Logo">
+    </div>
+    <h1>Welcome to GCET</h1>
+    <p>Sign in with your college email to access the Campus Lost &amp; Found system.</p>
+    <form id="login-form" autocomplete="off">
+      <div class="login-input-group">
+        <span class="input-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg></span>
+        <input type="email" id="login-email" placeholder="yourname@gcet.edu.in" required>
+      </div>
+      <button type="submit" class="login-btn">Continue with GCET Email</button>
+      <p class="login-error" id="login-error">Please use your GCET college email (@gcet.edu.in)</p>
+    </form>
+    <p class="login-footer-text">Only @gcet.edu.in emails are accepted</p>
+  </div>
+</div>
+
+<!-- ==================== NAVBAR ==================== -->
+<nav class="navbar" id="navbar">
+  <div class="container">
+    <a href="#hero" class="nav-brand">
+      <img src="gcet-logo.png" alt="GCET Logo">
+      <span><span class="brand-highlight">GCET</span> Lost &amp; Found</span>
+    </a>
+    <div class="nav-links" id="nav-links">
+      <a href="#hero" class="active">Home</a>
+      <a href="#lost-items">Lost Items</a>
+      <a href="#found-items">Found Items</a>
+      <a href="#locations">Locations</a>
+      <a href="#live-feed">Feed</a>
+      <a href="#support">Support</a>
+    </div>
+    <div class="nav-user">
+      <span class="nav-user-email" id="nav-user-email"></span>
+      <button class="nav-logout" id="nav-logout">Log out</button>
+    </div>
+    <div class="nav-hamburger" id="nav-hamburger">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<!-- ==================== HERO ==================== -->
+<section class="hero" id="hero">
+  <div class="hero-bg">
+    <div class="hero-blob"></div>
+    <div class="hero-blob"></div>
+    <div class="hero-blob"></div>
+    <div class="hero-blob"></div>
+  </div>
+  <div class="hero-grid"></div>
+
+  <div class="hero-content">
+    <div class="hero-badge">
+      <span class="pulse-dot"></span>
+      Live Campus Updates
+    </div>
+    <h1>
+      <span class="gradient-text">GCET Campus</span><br>Lost &amp; Found
+    </h1>
+    <p class="hero-subtitle">
+      Helping students reconnect with their lost belongings across campus. Report, search, and recover items effortlessly.
+    </p>
+    <div class="hero-actions">
+      <button class="btn btn-primary" onclick="openModal('lost-modal')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        Report Lost Item
+      </button>
+      <button class="btn btn-secondary" onclick="openModal('found-modal')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>
+        Report Found Item
+      </button>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hero-stat-value" id="stat-reported">24</div>
+        <div class="hero-stat-label">Items Reported</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-value" id="stat-recovered">18</div>
+        <div class="hero-stat-label">Items Recovered</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-value" id="stat-locations">11</div>
+        <div class="hero-stat-label">Campus Locations</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== SEARCH & FILTER ==================== -->
+<section class="section search-section" id="search">
+  <div class="container">
+    <div class="reveal">
+      <span class="section-label">Search</span>
+      <h2 class="section-title">Find Your Item</h2>
+      <p class="section-subtitle">Search through all reported lost and found items across campus.</p>
+    </div>
+    <div class="search-box reveal">
+      <div class="search-input-wrapper">
+        <span class="search-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></span>
+        <input type="text" id="search-input" placeholder="Search by name, category, or location...">
+      </div>
+      <div class="filter-group">
+        <select class="filter-select" id="filter-category">
+          <option value="">All Categories</option>
+          <option value="wallet">Wallet</option>
+          <option value="phone">Phone</option>
+          <option value="id-card">ID Card</option>
+          <option value="laptop">Laptop</option>
+          <option value="keys">Keys</option>
+          <option value="bag">Bag</option>
+          <option value="bottle">Bottle</option>
+          <option value="charger">Charger</option>
+          <option value="other">Other</option>
+        </select>
+        <select class="filter-select" id="filter-location">
+          <option value="">All Locations</option>
+          <option value="Block 1">Block 1</option>
+          <option value="Block 2">Block 2</option>
+          <option value="Block 3">Block 3</option>
+          <option value="Block 4">Block 4</option>
+          <option value="Block 5">Block 5</option>
+          <option value="Library">Library</option>
+          <option value="Canteen">Canteen</option>
+          <option value="Football Ground">Football Ground</option>
+          <option value="Basketball Court">Basketball Court</option>
+          <option value="Open Lawn">Open Lawn</option>
+          <option value="Open Gym">Open Gym</option>
+        </select>
+        <select class="filter-select" id="filter-type">
+          <option value="">Lost &amp; Found</option>
+          <option value="lost">Lost Only</option>
+          <option value="found">Found Only</option>
+        </select>
+      </div>
+    </div>
+    <div class="search-results-grid" id="search-results"></div>
+  </div>
+</section>
+
+<!-- ==================== LOST ITEMS ==================== -->
+<section class="section" id="lost-items">
+  <div class="container">
+    <div class="items-header reveal">
+      <div>
+        <span class="section-label">Lost Items</span>
+        <h2 class="section-title">Recently Lost</h2>
+        <p class="section-subtitle">Items that students have reported losing on campus.</p>
+      </div>
+      <button class="btn btn-primary btn-sm" onclick="openModal('lost-modal')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+        Report Lost
+      </button>
+    </div>
+    <div class="items-grid reveal" id="lost-items-grid"></div>
+  </div>
+</section>
+
+<!-- ==================== FOUND ITEMS ==================== -->
+<section class="section" id="found-items" style="background: var(--gray-50);">
+  <div class="container">
+    <div class="items-header reveal">
+      <div>
+        <span class="section-label">Found Items</span>
+        <h2 class="section-title">Recently Found</h2>
+        <p class="section-subtitle">Items found by students across campus. Check if anything belongs to you.</p>
+      </div>
+      <button class="btn btn-primary btn-sm" onclick="openModal('found-modal')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+        Report Found
+      </button>
+    </div>
+    <div class="items-grid reveal" id="found-items-grid"></div>
+  </div>
+</section>
+
+<!-- ==================== CAMPUS LOCATIONS ==================== -->
+<section class="section locations-section" id="locations">
+  <div class="container">
+    <div class="reveal" style="text-align:center;">
+      <span class="section-label">Campus Locations</span>
+      <h2 class="section-title">Key Campus Spots</h2>
+      <p class="section-subtitle" style="margin:0 auto;">Common locations where items are lost or found on campus.</p>
+    </div>
+    <div class="locations-grid reveal" id="locations-grid"></div>
+  </div>
+</section>
+
+<!-- ==================== LIVE FEED ==================== -->
+<section class="section feed-section" id="live-feed">
+  <div class="container">
+    <div class="reveal">
+      <span class="section-label">Live Feed</span>
+      <h2 class="section-title">Campus Activity</h2>
+      <p class="section-subtitle">Real-time updates on lost and found items across campus.</p>
+    </div>
+    <div class="feed-container reveal">
+      <div class="feed-list" id="feed-list"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== DASHBOARD ==================== -->
+<section class="section dashboard-section" id="dashboard">
+  <div class="container">
+    <div class="dashboard-header reveal">
+      <span class="section-label">Dashboard</span>
+      <h2>Quick Actions &amp; Recent Activity</h2>
+      <p>Report items and review recent campus lost &amp; found activity.</p>
+    </div>
+    <div class="dashboard-quick-actions reveal">
+      <div class="dashboard-action-btn" onclick="openModal('lost-modal')">
+        <div class="action-icon-wrap lost-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        </div>
+        <div class="action-text">
+          <h4>Report Lost Item</h4>
+          <p>Lost something on campus? Report it here.</p>
+        </div>
+      </div>
+      <div class="dashboard-action-btn" onclick="openModal('found-modal')">
+        <div class="action-icon-wrap found-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>
+        </div>
+        <div class="action-text">
+          <h4>Report Found Item</h4>
+          <p>Found something? Help return it to its owner.</p>
+        </div>
+      </div>
+    </div>
+    <div class="dashboard-panels reveal" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
+      <div class="dashboard-panel">
+        <h3><span class="panel-dot found"></span> My Reported Items</h3>
+        <div id="dashboard-my-items-list"></div>
+      </div>
+      <div class="dashboard-panel">
+        <h3><span class="panel-dot lost"></span> My Claims</h3>
+        <div id="dashboard-my-claims-list"></div>
+      </div>
+      <div class="dashboard-panel" style="border-color: var(--blue-200); background: var(--blue-50);">
+        <h3><span class="panel-dot" style="background:var(--blue-600)"></span> Claim Requests</h3>
+        <div id="dashboard-claim-requests-list"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== SUPPORT ==================== -->
+<section class="section support-section" id="support">
+  <div class="container">
+    <div class="reveal" style="text-align:center;">
+      <span class="section-label">Support</span>
+      <h2 class="section-title">Help &amp; Support</h2>
+      <p class="section-subtitle" style="margin:0 auto;">Everything you need to know about the GCET Campus Lost &amp; Found system.</p>
+    </div>
+    <div class="support-grid reveal">
+      <div class="support-info">
+        <h3>Frequently Asked Questions</h3>
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            <span>How does the Lost &amp; Found system work?</span>
+            <span class="faq-toggle">+</span>
+          </div>
+          <div class="faq-answer">
+            <p>Students can report lost or found items through our platform. When an item is reported, it appears on the campus feed. Other students can search and match items to help reunite belongings with their owners.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            <span>How do I return a found item?</span>
+            <span class="faq-toggle">+</span>
+          </div>
+          <div class="faq-answer">
+            <p>Report it on the platform with a photo and location. You can also take the item to the nearest block office. The owner can contact you through the platform to arrange collection.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            <span>What safety tips should I follow?</span>
+            <span class="faq-toggle">+</span>
+          </div>
+          <div class="faq-answer">
+            <p>Always verify the identity of anyone claiming an item. Meet in a public campus location. Never share personal financial information. Label your belongings with your student ID for easier recovery.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            <span>Who can use this system?</span>
+            <span class="faq-toggle">+</span>
+          </div>
+          <div class="faq-answer">
+            <p>This system is exclusively for GCET students and staff. You need a valid @gcet.edu.in email address to log in. This ensures campus safety and accountability.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            <span>How long are items kept on the platform?</span>
+            <span class="faq-toggle">+</span>
+          </div>
+          <div class="faq-answer">
+            <p>Items remain listed for 30 days. If unclaimed, they are archived. Physical items held at block offices are transferred to the main admin office after 2 weeks.</p>
+          </div>
+        </div>
+      </div>
+      <div class="support-form-card">
+        <h3>Contact Support</h3>
+        <form id="support-form">
+          <div class="form-group">
+            <label for="support-name">Name</label>
+            <input type="text" id="support-name" placeholder="Your name" required>
+          </div>
+          <div class="form-group">
+            <label for="support-email">Email</label>
+            <input type="email" id="support-email" placeholder="yourname@gcet.edu.in" required>
+          </div>
+          <div class="form-group">
+            <label for="support-message">Message</label>
+            <textarea id="support-message" placeholder="How can we help you?" required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width:100%;">Send Message</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== FOOTER ==================== -->
+<footer class="footer" id="footer">
+  <div class="container">
+    <div class="footer-content">
+      <div class="footer-about">
+        <div class="footer-brand">
+          <img src="gcet-logo.png" alt="GCET Logo">
+          <span>GCET Lost &amp; Found</span>
+        </div>
+        <p>Geethanjali College of Engineering and Technology — Campus Lost &amp; Found System. Helping students reconnect with their belongings.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Navigate</h4>
+        <a href="#hero">Home</a>
+        <a href="#lost-items">Lost Items</a>
+        <a href="#found-items">Found Items</a>
+        <a href="#locations">Locations</a>
+      </div>
+      <div class="footer-col">
+        <h4>Support</h4>
+        <a href="#support">Help Center</a>
+        <a href="#support">Contact Us</a>
+        <a href="#support">FAQs</a>
+      </div>
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Use</a>
+        <a href="#">Campus Guidelines</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 GCET Campus Lost &amp; Found. All rights reserved.</span>
+      <span class="made-by">Made by <strong>Adithya</strong></span>
+    </div>
+  </div>
+</footer>
+
+<!-- ==================== REPORT LOST ITEM MODAL ==================== -->
+<div class="modal-overlay" id="lost-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <h2>Report Lost Item</h2>
+      <button class="modal-close" onclick="closeModal('lost-modal')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form id="lost-form">
+        <div class="form-group">
+          <label for="lost-item-name">Item Name *</label>
+          <input type="text" id="lost-item-name" placeholder="e.g. Black leather wallet" required>
+        </div>
+        <div class="form-group">
+          <label for="lost-item-category">Category *</label>
+          <select id="lost-item-category" required>
+            <option value="">Select category</option>
+            <option value="wallet">Wallet</option>
+            <option value="phone">Phone</option>
+            <option value="id-card">ID Card</option>
+            <option value="laptop">Laptop</option>
+            <option value="keys">Keys</option>
+            <option value="bag">Bag</option>
+            <option value="bottle">Bottle</option>
+            <option value="charger">Charger</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="lost-item-description">Description</label>
+          <textarea id="lost-item-description" placeholder="Describe the item in detail..."></textarea>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="lost-item-location">Primary Location *</label>
+            <select id="lost-item-location" required>
+              <option value="">Select location</option>
+              <option value="Block 1">Block 1</option>
+              <option value="Block 2">Block 2</option>
+              <option value="Block 3">Block 3</option>
+              <option value="Block 4">Block 4</option>
+              <option value="Block 5">Block 5</option>
+              <option value="Library">Library</option>
+              <option value="Canteen">Canteen</option>
+              <option value="Football Ground">Football Ground</option>
+              <option value="Basketball Court">Basketball Court</option>
+              <option value="Open Lawn">Open Lawn</option>
+              <option value="Open Gym">Open Gym</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="lost-item-location-detail">Specific Location</label>
+            <input type="text" id="lost-item-location-detail" placeholder="e.g. Classroom 302, CSE Lab 1">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="lost-item-date">Date Lost *</label>
+          <input type="date" id="lost-item-date" required>
+        </div>
+        <div class="form-group">
+          <label>Upload Image</label>
+          <div class="image-upload-area" id="lost-upload-area">
+            <span class="upload-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></span>
+            <p>Click or drag to upload image</p>
+            <input type="file" accept="image/*" id="lost-item-image" onchange="previewImage(this, 'lost-image-preview')">
+          </div>
+          <div class="image-preview" id="lost-image-preview"><img src="" alt="Preview"></div>
+        </div>
+        <div class="form-group">
+          <label for="lost-item-email">Contact Email *</label>
+          <input type="email" id="lost-item-email" placeholder="yourname@gcet.edu.in" required>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('lost-modal')">Cancel</button>
+      <button class="btn btn-primary btn-sm" onclick="submitLostItem()">Submit Report</button>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== REPORT FOUND ITEM MODAL ==================== -->
+<div class="modal-overlay" id="found-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <h2>Report Found Item</h2>
+      <button class="modal-close" onclick="closeModal('found-modal')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form id="found-form">
+        <div class="form-group">
+          <label for="found-item-name">Item Name *</label>
+          <input type="text" id="found-item-name" placeholder="e.g. Blue water bottle" required>
+        </div>
+        <div class="form-group">
+          <label for="found-item-category">Category *</label>
+          <select id="found-item-category" required>
+            <option value="">Select category</option>
+            <option value="wallet">Wallet</option>
+            <option value="phone">Phone</option>
+            <option value="id-card">ID Card</option>
+            <option value="laptop">Laptop</option>
+            <option value="keys">Keys</option>
+            <option value="bag">Bag</option>
+            <option value="bottle">Bottle</option>
+            <option value="charger">Charger</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="found-item-location">Location Found *</label>
+            <select id="found-item-location" required>
+              <option value="">Select location</option>
+              <option value="Block 1">Block 1</option>
+              <option value="Block 2">Block 2</option>
+              <option value="Block 3">Block 3</option>
+              <option value="Block 4">Block 4</option>
+              <option value="Block 5">Block 5</option>
+              <option value="Library">Library</option>
+              <option value="Canteen">Canteen</option>
+              <option value="Football Ground">Football Ground</option>
+              <option value="Basketball Court">Basketball Court</option>
+              <option value="Open Lawn">Open Lawn</option>
+              <option value="Open Gym">Open Gym</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="found-item-location-detail">Specific Location</label>
+            <input type="text" id="found-item-location-detail" placeholder="e.g. Reading Hall, Lab 3">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="found-item-date">Date Found *</label>
+          <input type="date" id="found-item-date" required>
+        </div>
+        <div class="form-group">
+          <label>Upload Image</label>
+          <div class="image-upload-area" id="found-upload-area">
+            <span class="upload-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></span>
+            <p>Click or drag to upload image</p>
+            <input type="file" accept="image/*" id="found-item-image" onchange="previewImage(this, 'found-image-preview')">
+          </div>
+          <div class="image-preview" id="found-image-preview"><img src="" alt="Preview"></div>
+        </div>
+        <div class="form-group">
+          <label for="found-item-description">Description (optional)</label>
+          <textarea id="found-item-description" placeholder="Any additional details..."></textarea>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('found-modal')">Cancel</button>
+      <button class="btn btn-primary btn-sm" onclick="submitFoundItem()">Submit Report</button>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== ITEM DETAIL MODAL ==================== -->
+<div class="modal-overlay" id="item-detail-modal">
+  <div class="modal" style="max-width: 680px;">
+    <div class="modal-header">
+      <h2>Item Details</h2>
+      <button class="modal-close" onclick="closeModal('item-detail-modal')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="modal-body" id="item-detail-body">
+      <!-- Content populated by JS -->
+    </div>
+  </div>
+</div>
+
+<!-- ==================== CLAIM VERIFICATION MODAL ==================== -->
+<div class="modal-overlay" id="claim-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <h2>Claim This Item</h2>
+      <button class="modal-close" onclick="closeModal('claim-modal')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form id="claim-form">
+        <input type="hidden" id="claim-item-id">
+        <p style="font-size:var(--font-sm); color:var(--gray-500); margin-bottom:var(--space-4);">Please provide details to verify you are the rightful owner of this item.</p>
+        <div class="form-group">
+          <label for="claim-name">Your Name *</label>
+          <input type="text" id="claim-name" placeholder="Full name" required>
+        </div>
+        <div class="form-group">
+          <label for="claim-email">Contact Email *</label>
+          <input type="email" id="claim-email" placeholder="yourname@gcet.edu.in" required>
+        </div>
+        <div class="form-group">
+          <label for="claim-desc">Verification Details *</label>
+          <textarea id="claim-desc" placeholder="Describe a unique detail about the item to prove ownership (e.g. wallpaper on phone, contents of wallet, scratch on the back)..." required></textarea>
+        </div>
+        <div class="form-group">
+          <label>Proof Image (Optional)</label>
+          <div class="image-upload-area" id="claim-upload-area">
+            <span class="upload-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></span>
+            <p>Upload a photo of you with the item or purchase receipt</p>
+            <input type="file" accept="image/*" id="claim-item-image" onchange="previewImage(this, 'claim-image-preview')">
+          </div>
+          <div class="image-preview" id="claim-image-preview"><img src="" alt="Preview"></div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('claim-modal')">Cancel</button>
+      <button class="btn btn-primary btn-sm" onclick="submitClaim()">Submit Claim</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast container -->
+<div class="toast-container" id="toast-container"></div>
+
+<script src="app.js"></script>
+</body>
+</html>
