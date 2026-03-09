@@ -25,15 +25,15 @@ This project aims to provide a practical campus utility while demonstrating mode
 ## Website Preview
 
 ### Homepage
-![Homepage](screenshots/homepage.png)
+![Homepage](Screenshots/homepage.png)
 
 ### Campus Activity Feed
-![Campus Activity](screenshots/campus-activity-feed.png)
+![Campus Activity](Screenshots/campus-activity-feed.png)
 
 ### Dashboard
-![Dashboard](screenshots/dashboard.png)
+![Dashboard](Screenshots/dashboard.png)
 
 ### Lost Items Page
-![Lost Items](screenshots/lost-items-page.png)
+![Lost Items](Screenshots/lost-items-page.png)
 
 Made by Adithya.
